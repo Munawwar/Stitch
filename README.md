@@ -101,7 +101,7 @@ Page.php
 	startblock('side-content');
 	//Include a view
 	include('side-content.php');
-	//Code generated html
+	//Code-generated html
 	renderMenu(array('current_page' => 'Home')); //Where renderMenu echos/prints the html for the menu
 	endblock();
 ?>
