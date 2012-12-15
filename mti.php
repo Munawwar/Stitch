@@ -1,5 +1,10 @@
 <?php
 	/**
+	 * Minimal Template Inheritance.
+	 * MIT license (http://opensource.org/licenses/MIT).
+	 */
+
+	/**
 	 * Main class that compiles/joins the html blocks and outputs the final html.
 	 */
 	class TI {
