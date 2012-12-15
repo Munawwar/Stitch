@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Minimal Template Inheritance.
+	 * Stitch - Fast template inheritance.
 	 * MIT license (http://opensource.org/licenses/MIT).
 	 */
 
@@ -54,7 +54,7 @@
 		private static $dnum = 0;
 		//Debug logs using apache headers
 		public static function log($str) {
-			header('X-mti-' . TI::$dnum . ': ' . preg_replace('#[\\r\\n]#m', '\\n' , $str));
+			header('X-ti-' . TI::$dnum . ': ' . preg_replace('#[\\r\\n]#m', '\\n' , $str));
 			TI::$dnum += 1;
 		}
 
