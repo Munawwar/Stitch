@@ -8,11 +8,11 @@
 	<body>
 		<div style="padding: 10px; background-color: #f0f0f0;">
 			<?php startblock('block1'); ?>
-				hello 1
+				Default text - block1
 			<?php endblock(); ?>
 			<br/>
 			<?php startblock('block2'); ?>
-				hello 2
+				Default text - block2
 			<?php endblock(); ?>
 		</div>
 	</body>

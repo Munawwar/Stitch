@@ -8,6 +8,10 @@
 	 * Main class that compiles/joins the html blocks and outputs the final html.
 	 */
 	class TI {
+		const APPEND = 1;
+		const REPLACE = 0;
+		const PREPEND = -1;
+
 		public static $stack = array('superblock');
 		public static $page = array(); // Keeps the html
 		public static $blocks = array(); //Hash map to keep block info
@@ -20,9 +24,9 @@
 		 */
 		public static $startTime;
 
+		//Superblock callback
 		public static function callback($str, $flags) {
-			$block = array_pop(TI::$stack);
-			if ($block == 'superblock' && ($flags & PHP_OUTPUT_HANDLER_END)) {
+			if ($flags & PHP_OUTPUT_HANDLER_END) {
 				/*Superblock has ended..time to spit the html*/
 				//Sort blocks
 				$blocks = array_slice(TI::$blocks, 0);
@@ -42,9 +46,6 @@
 					TI::log('Time taken in ms = ' . (microtime(true) - TI::$startTime));
 				}
 				return $html;
-			} else {
-				TI::$blocks[$block]['content'] = $str;
-				return ''; //Delete contents of buffer
 			}
 		}
 
@@ -70,19 +71,28 @@
 	/**
 	 * Starts a block. Can be used within page and template.
 	 * Note: Nested blocks is not supported.
-	 * @param {String} name Give a name to your block
+	 * @param {String} name Use any unique name for the block.
+	 * If a block with the same name exist, then the block content is modified (modification depends on the 'insertTo' parameter).
+	 * @param {Integer} [insertTo] If 1, the content is appended to the previous block of the same name.
+	 * If -1 content is prepended. Default is 0 where content is replaced.
+	 * If a previous block of the same name doesn't exist, then it is created.
+	 *
+	 * You can use TI::APPEND,TI::PREPEND and TI::REPLACE for readability.
 	 * @public
 	 */
-	function startblock($name) {
+	function startblock($name, $insertTo = 0) {
 		if(!isset(TI::$blocks[$name])) { //store block info
 			TI::$blocks[$name]=array(
 				'name' => $name,
-				'content' => null, //it's the callback's job to fill this
+				'content' => null, //it is endblock's job to fill this
 				'pos' => ob_get_length() //position/offset of block with respect to parent
 			);
 		}
-		array_push(TI::$stack, $name);
-		ob_start("TI::callback");
+		array_push(TI::$stack, array(
+			'name' => $name,
+			'insertTo' => $insertTo
+		));
+		ob_start();
 	}
 
 	/**
@@ -91,13 +101,26 @@
 	 */
 	function endblock() {
 		if (isset(TI::$stack[1])) {
+			$temp = array_pop(TI::$stack);
+			$block = $temp['name'];
+			$insertTo = $temp['insertTo'];
+			$content = ob_get_contents();
+			if (TI::$blocks[$block]['content'] === null || $insertTo === 0) {
+				TI::$blocks[$block]['content'] = $content;
+			} else if ($insertTo > 0) {
+				//Append content
+				TI::$blocks[$block]['content'] = TI::$blocks[$block]['content'] . $content;
+			} else {
+				//Prepend content
+				TI::$blocks[$block]['content'] = $content . TI::$blocks[$block]['content'];
+			}
 			ob_end_clean();
 		}
 	}
 
 	/**
-	 * Defines a block. It is equivalent to a startblock/endblock call with no html between them.
-	 * @param {String} name Give a name to your block
+	 * Defines a block. This method is equivalent to a startblock-endblock call with no html between them.
+	 * @param {String} name Use any unique name for the block
 	 * @public
 	 */
 	function defineblock($name) {
