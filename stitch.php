@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Stitch - Fast template inheritance.
+	 * Stitch v0.1.1 - Fast template inheritance.
 	 * MIT license (http://opensource.org/licenses/MIT).
 	 */
 
@@ -13,7 +13,6 @@
 		const PREPEND = -1;
 
 		public static $stack = array('superblock');
-		public static $page = array(); // Keeps the html
 		public static $blocks = array(); //Hash map to keep block info
 
 		//For profiling
@@ -30,9 +29,7 @@
 				/*Superblock has ended..time to spit the html*/
 				//Sort blocks
 				$blocks = array_slice(TI::$blocks, 0);
-				usort($blocks, function($a, $b) {
-					return $a['pos'] - $b['pos'];
-				});
+				usort($blocks, array('TI', 'sort'));
 
 				//Insert in decsending order
 				$html = '';
@@ -58,8 +55,11 @@
 			TI::$dnum += 1;
 		}
 
-		public static function substr($str, $start, $end) {
+		private static function substr($str, $start, $end) {
 			return substr($str, $start, $end - $start);
+		}
+		private static function sort($a, $b) {
+			return $a['pos'] - $b['pos'];
 		}
 		//--------------------
 
