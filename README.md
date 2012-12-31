@@ -7,7 +7,7 @@ Template inheritance seeks to solve this problem by keeping your template and pa
 When a user visits your page, a script is called which stitches the page and template togeather, and serves the final page.
 
 ####Supported PHP versions
-Tested on 5.3.10.
+Tested on 5.3.10 and 5.2.
 
 ###Usage with an example
 ####Quick Start
