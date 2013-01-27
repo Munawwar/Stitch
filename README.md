@@ -118,6 +118,27 @@ define('TI_PROFILE', true);
 This will give you the total time taken to process the page as an apache header with 'X-ti-' prefix.
 The time shown includes the time taken for php engine to parse the pages.
 
+####Optimization
+
+Some ways to reduce server load and improve page load are 1. to use cache control headers while serving the pages, 2. speed things up with APC.
+
+If you want the output of Stitch on run-time you could use the following function:
+
+```
+function getHtml($pathToPage) {
+	ob_start();
+	include($pathToPage);
+	ob_end_flush(); //Ends Stitch
+	return ob_get_clean();
+}
+```
+
+With this you can compile the html to a static .html file and then take that further to use cache control.
+Or with dynamic content, cache content with in-memory storage like memcached and
+echo them out within the page/template blocks?
+
+There are many ways to do this, so pick what is best for your application.
+
 ###Philosophy and Features
 
 Q. Why don't you support nested blocks? Why can't page inherit pages or multiple templates? Why can't a template inherit another template?
