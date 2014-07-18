@@ -115,7 +115,7 @@ Use only on development:
 define('TI_PROFILE', true);
 ```
 
-This will give you the total time taken to process the page as an apache header with 'X-ti-' prefix.
+This will give you the total time taken to process the page as an HTTP header with 'X-ti-' prefix.
 The time shown includes the time taken for php engine to parse the pages.
 
 ####Optimization
