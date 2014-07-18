@@ -40,7 +40,7 @@
 				}
 				$html = TI::substr($str, 0, $end) . $html;
 				if (defined('TI_PROFILE') && TI_PROFILE) {
-					TI::log('Time taken in ms = ' . (microtime(true) - TI::$startTime));
+					TI::log('Time taken in ms = ' . ((microtime(true) - TI::$startTime) * 1000));
 				}
 				return $html;
 			}
