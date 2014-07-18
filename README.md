@@ -118,9 +118,9 @@ define('TI_PROFILE', true);
 This will give you the total time taken to process the page as an HTTP header with 'X-ti-' prefix.
 The time shown includes the time taken for php engine to parse the pages.
 
-####Optimization
+####Optimization Tips
 
-Some ways to reduce server load and improve page load are 1. to use cache control headers while serving the pages, 2. speed things up with APC.
+Stitch takes ~1 ms to render most pages. However you can further reduce render overhead by using cache control HTTP headers while serving the pages.
 
 If you want the output of Stitch on run-time you could use the following function:
 
@@ -133,11 +133,10 @@ function getHtml($pathToPage) {
 }
 ```
 
-With this you can compile the html to a static .html file and then take that further to use cache control.
-Or with dynamic content, cache content with in-memory storage like memcached and
-echo them out within the page/template blocks?
-
-There are many ways to do this, so pick what is best for your application.
+With this you could write the html to a static .html file.
+Or with dynamic content, you can cache the content with in-memory storage like memcached and
+echo them out within the page/template blocks? There are many ways to do page optimization, so
+pick what is best for your application.
 
 ###Philosophy and Features
 
