@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Stitch v0.1.1 - Fast template inheritance.
+	 * Stitch v1.0.0 - Fast template inheritance.
 	 * MIT license (http://opensource.org/licenses/MIT).
 	 */
 
