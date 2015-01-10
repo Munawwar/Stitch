@@ -4,7 +4,9 @@ Most websites out there have multiple pages using a single template.
 Maintaining web pages as raw .html pages are more difficult as number of pages increase, since any change to the template must be manually edited on all pages.
 
 Template inheritance seeks to solve this problem by keeping your template and page contents in separate files.
-When a user visits your page, a script is called which stitches the page and template togeather, and serves the final page.
+When a user visits your page, stitch.php will stitch the page and template togeather, and serve the final page.
+
+This is not like ESI includes, because with ESI, a "template" can only include one html file (or a hardcoded few if you use esi:when). With Stitch multiple pages can reuse a template and can also override, prepend or append content to any template "block", which ultimately helps in cleaner code ("seperation of concerns").
 
 ####Supported PHP versions
 Tested on 5.3.10 and 5.2.
